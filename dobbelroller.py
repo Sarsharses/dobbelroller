@@ -13,27 +13,35 @@ import random
 vorigeRol = []
 
 
-def dobbelinput():
-    global dobbelsteen
-    dobbelsteen = input("Welke dobbelsteen wil je rollen? d")
+def main():
+    print("Welkom bij de ultra-fantastische mega-ultieme dobbelsteenrolervaring van 2023!!!1!\n")
+    dobbelrol()
 
-    if dobbelsteen.isdigit():
-        dobbelsteen = int(dobbelsteen)
-    else:
-        print("Foutieve input")
-        dobbelinput()
+# Vraag om een integer en kijk of het daadwerkelijk een getal is
+def get_int(prompt):
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            print("Foutieve input")
+
+def dobbelinput():
+    dobbelsteen = 0
+    while dobbelsteen < 1:
+        dobbelsteen = get_int("Welke dobbelsteen wil je rollen? d")
+    return dobbelsteen
 
 
 def dobbelrol():
     # uitkomst is een willekeurig getal tussen 1 en de opgegeven dobbelsteen
-    global uitkomst
-    uitkomst = int(random.randrange(1, dobbelsteen + 1))
-    print(" Je rolde met een d" + str(dobbelsteen))
+    d = dobbelinput()
+    uitkomst = int(random.randrange(1, d + 1))
+    print(" Je rolde met een d" + str(d))
     print(" En je gooide een", uitkomst)
     playsound('bell.wav')
 
     # Als de rol maximaal of 1 is wordt dit extra benadrukt
-    if uitkomst == dobbelsteen:
+    if uitkomst == d:
         print("Je hebt een perfecte rol!")
     if uitkomst == 1:
         print("Je rol is gefaald!")
@@ -49,23 +57,17 @@ def dobbelrol():
 
 
 def opnieuwrollen():
-    global opnieuw
     opnieuw = input("\nWil je nogmaals rollen? Y/N\nEen leeg antwoord wordt als Ja gezien. ")
 
     if opnieuw.lower() == "y":
-        dobbelinput()
         dobbelrol()
     elif opnieuw.lower() == "n":
         exit()
     elif opnieuw == "":
-        dobbelinput()
         dobbelrol()
     else:
         print("Foutieve input")
         opnieuwrollen()
 
 
-print("Welkom bij de ultra-fantastische mega-ultieme dobbelsteenrolervaring van 2023!!!1!\n")
-
-dobbelinput()
-dobbelrol()
+main()
