@@ -8,8 +8,10 @@ Dobbelsteenroller in Python
 * 5. Een lijst met alle voorgaande rollen wordt geprint naar de console
 """
 from playsound import playsound
+import tkinter as tk
 import random
 
+window = tk.Tk()
 vorigeRol = []
 
 
