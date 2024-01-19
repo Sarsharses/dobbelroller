@@ -10,15 +10,30 @@ Dobbelsteenroller in Python
 from playsound import playsound
 import tkinter as tk
 import random
+import argparse
 
-window = tk.Tk()
+
 vorigeRol = []
+
+# Kijkt naar de command line arguments om te zien of de GUI wordt aangeroepen
+parser = argparse.ArgumentParser()
+parser.add_argument("-g", "--GUI", action = 'store_true', help = "Show graphical user interface")
+args = parser.parse_args()
 
 
 def main():
-    print("Welkom bij de ultra-fantastische mega-ultieme dobbelsteenrolervaring van 2023!!!1!\n")
-    dobbelrol()
+    if args.GUI:
+        graphic_interface()
+    else:
+        print("Welkom bij de ultra-fantastische mega-ultieme dobbelsteenrolervaring van 2023!!!1!\n")
+        dobbelrol()
 
+
+# Teken de dobbelroller op het scherm
+def graphic_interface():
+    root = tk.Tk()
+    root.mainloop()
+ 
 # Vraag om een integer en kijk of het daadwerkelijk een getal is
 def get_int(prompt):
     while True:
@@ -27,6 +42,8 @@ def get_int(prompt):
         except ValueError:
             print("Foutieve input")
 
+
+# Stelt in de CLI in welke dobbelsteen er gerold wordt
 def dobbelinput():
     dobbelsteen = 0
     while dobbelsteen < 1:
@@ -34,6 +51,7 @@ def dobbelinput():
     return dobbelsteen
 
 
+# Rolt met de dobbelsteen
 def dobbelrol():
     # uitkomst is een willekeurig getal tussen 1 en de opgegeven dobbelsteen
     d = dobbelinput()
