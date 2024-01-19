@@ -25,20 +25,27 @@ def main():
     if args.GUI:
         graphic_interface()
     else:
-        print("Welkom bij de ultra-fantastische mega-ultieme dobbelsteenrolervaring van 2023!!!1!\n")
-        dobbelrol()
+        command_interface()
 
 
 # Teken de dobbelroller op het scherm
 def graphic_interface():
     root = tk.Tk()
     root.mainloop()
+
+
+# Runt de CLI versie
+def command_interface():
+    print("Welkom bij de ultra-fantastische mega-ultieme dobbelsteenrolervaring van 2023!!!1!\n")
+    dobbelrol()
  
 # Vraag om een integer en kijk of het daadwerkelijk een getal is
 def get_int(prompt):
     while True:
         try:
-            return int(input(prompt))
+            # TODO Er moet nog een Else komen voor de GUI
+            if (args.GUI != True): 
+                return int(input(prompt))
         except ValueError:
             print("Foutieve input")
 
@@ -47,7 +54,9 @@ def get_int(prompt):
 def dobbelinput():
     dobbelsteen = 0
     while dobbelsteen < 1:
-        dobbelsteen = get_int("Welke dobbelsteen wil je rollen? d")
+        # TODO Er moet nog een Else komen voor de GUI
+        if (args.GUI != True):
+            dobbelsteen = get_int("Welke dobbelsteen wil je rollen? d")
     return dobbelsteen
 
 
@@ -56,38 +65,42 @@ def dobbelrol():
     # uitkomst is een willekeurig getal tussen 1 en de opgegeven dobbelsteen
     d = dobbelinput()
     uitkomst = int(random.randrange(1, d + 1))
-    print(" Je rolde met een d" + str(d))
-    print(" En je gooide een", uitkomst)
-    playsound('bell.wav')
+    # TODO Er moet nog een Else komen voor de GUI
+    if (args.GUI != True):
+        print(" Je rolde met een d" + str(d))
+        print(" En je gooide een", uitkomst)
+        playsound('bell.wav')
 
-    # Als de rol maximaal of 1 is wordt dit extra benadrukt
-    if uitkomst == d:
-        print("Je hebt een perfecte rol!")
-    if uitkomst == 1:
-        print("Je rol is gefaald!")
+        # Als de rol maximaal of 1 is wordt dit extra benadrukt
+        if uitkomst == d:
+            print("Je hebt een perfecte rol!")
+        if uitkomst == 1:
+            print("Je rol is gefaald!")
 
     # De 5 laatste uitkomsten worden opgeslagen in een lijst
     vorigeRol.insert(0, uitkomst)
     if len(vorigeRol) > 5:
         vorigeRol.pop()
 
-    print("De laatste worpen waren:")
-    print(vorigeRol)
-    opnieuwrollen()
+    if (args.GUI != True):    
+        print("De laatste worpen waren:")
+        print(vorigeRol)
+        print()
+        opnieuwrollen()
 
 
 def opnieuwrollen():
-    opnieuw = input("\nWil je nogmaals rollen? Y/N\nEen leeg antwoord wordt als Ja gezien. ")
+    msg = "Wil je nogmaals rollen? Y/N\nEen leeg antwoord wordt als Ja gezien. "
+    opnieuw = input(msg)
 
-    if opnieuw.lower() == "y":
-        dobbelrol()
-    elif opnieuw.lower() == "n":
-        exit()
-    elif opnieuw == "":
-        dobbelrol()
-    else:
-        print("Foutieve input")
-        opnieuwrollen()
+    while True:
+            if (opnieuw.lower() == "y" or opnieuw == ""): 
+                dobbelrol()
+            elif (opnieuw.lower() == "n"):
+                exit()
+            else:
+                print("\nFoutieve input")
+                opnieuw = input(msg)
 
 
 main()
