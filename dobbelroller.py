@@ -69,13 +69,18 @@ def dobbelrol():
     if (args.GUI != True):
         print(" Je rolde met een d" + str(d))
         print(" En je gooide een", uitkomst)
-        playsound('bell.wav')
 
         # Als de rol maximaal of 1 is wordt dit extra benadrukt
         if uitkomst == d:
             print("Je hebt een perfecte rol!")
-        if uitkomst == 1:
+            # TODO Voeg een overwinningsgeluid toe
+            # playsound('victory.wav')
+        elif uitkomst == 1:
             print("Je rol is gefaald!")
+            # TODO Voeg een faalgeluid toe
+            # playsound('fail.wav)
+        else:    
+            playsound('bell.wav')
 
     # De 5 laatste uitkomsten worden opgeslagen in een lijst
     vorigeRol.insert(0, uitkomst)
