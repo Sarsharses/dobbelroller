@@ -25,22 +25,24 @@ class App(customtkinter.CTk):
         self.resizable(width=False, height=False)
 
         # Maak een 2x3 grid
-        self.grid_rowconfigure(2, weight = 1)
+        self.grid_rowconfigure((1, 2), weight = 1)
         self.grid_columnconfigure(1, weight = 1)
 
         # Voeg widgets toe
         self.l1 = customtkinter.CTkLabel(self, text = "Kies een aantal ogen", fg_color="transparent", text_color = "#000000")
-        self.l1.grid(row = 0, column = 0, padx = 20, pady = 10)
+        self.l1.grid(row = 0, column = 0, padx = 20, pady = 10, sticky="sew")
 
         self.entry = customtkinter.CTkEntry(self, placeholder_text = "Hoeveel ogen?")
-        self.entry.grid(row = 1, column = 0, padx = 20, pady = 10)
+        self.entry.grid(row = 1, column = 0, padx = 20, pady = 10, sticky="ew")
   
         self.button = customtkinter.CTkButton(self, text = "Rol!", command = dobbelrol(6))
-        self.button.grid(row = 2, column = 1, padx = 20, pady = 10)
+        self.button.grid(row = 2, column = 1, padx = 20, pady = 10, sticky="ew")
 
         # Laatste rollen
-        self.laatst = customtkinter.CTkLabel(self, text = f"Laatste worpen:\n{vorigeRol}", fg_color="transparent", text_color = "#000000")
-        self.laatst.grid(row = 1, column = 2, padx = 20, pady = 10)
+        self.laatst = customtkinter.CTkLabel(self, text = f"Laatste worpen:", fg_color="transparent", text_color = "#000000")
+        self.laatst.grid(row = 0, column = 2, padx = 20, pady = 10, sticky="sew")
+        self.rol = customtkinter.CTkLabel(self, text = f"{vorigeRol}", fg_color="transparent", text_color = "#000000")
+        self.rol.grid(row = 1, column = 2, padx = 20, pady = 10, sticky="ew")
 
 
 # Kijkt naar de command line arguments om te zien of de GUI wordt aangeroepen
