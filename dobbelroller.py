@@ -8,6 +8,7 @@ Dobbelsteenroller in Python
 * 5. Een lijst met alle voorgaande rollen wordt geprint naar de console
 """
 from playsound import playsound
+import tkinter
 import customtkinter
 import random
 import argparse
@@ -19,9 +20,27 @@ customtkinter.set_appearance_mode("light")
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("800x600")
+        self.geometry("500x300")
         self.title("Dobbelroller v0.1")
         self.resizable(width=False, height=False)
+
+        # Maak een 2x3 grid
+        self.grid_rowconfigure(2, weight = 1)
+        self.grid_columnconfigure(1, weight = 1)
+
+        # Voeg widgets toe
+        self.l1 = customtkinter.CTkLabel(self, text = "Kies een aantal ogen", fg_color="transparent", text_color = "#000000")
+        self.l1.grid(row = 0, column = 0, padx = 20, pady = 10)
+
+        self.entry = customtkinter.CTkEntry(self, placeholder_text = "Hoeveel ogen?")
+        self.entry.grid(row = 1, column = 0, padx = 20, pady = 10)
+  
+        self.button = customtkinter.CTkButton(self, text = "Rol!", command = dobbelrol(6))
+        self.button.grid(row = 2, column = 1, padx = 20, pady = 10)
+
+        # Laatste rollen
+        self.laatst = customtkinter.CTkLabel(self, text = f"Laatste worpen:\n{vorigeRol}", fg_color="transparent", text_color = "#000000")
+        self.laatst.grid(row = 1, column = 2, padx = 20, pady = 10)
 
 
 # Kijkt naar de command line arguments om te zien of de GUI wordt aangeroepen
