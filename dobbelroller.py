@@ -8,44 +8,54 @@ Dobbelsteenroller in Python
 * 5. Een lijst met alle voorgaande rollen wordt geprint naar de console
 """
 from playsound import playsound
-import tkinter as tk
+import customtkinter
 import random
 import argparse
 
+customtkinter.set_default_color_theme("dark-blue")
+customtkinter.set_appearance_mode("light")
 
-vorigeRol = []
+# Stelt de window van de applicatie in
+class App(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("800x600")
+        self.title("Dobbelroller v0.1")
+        self.resizable(width=False, height=False)
+
 
 # Kijkt naar de command line arguments om te zien of de GUI wordt aangeroepen
 parser = argparse.ArgumentParser()
-parser.add_argument("-g", "--GUI", action = 'store_true', help = "Show graphical user interface")
+parser.add_argument("-c", "--CLI", action = 'store_true', help = "Show CLI only")
 args = parser.parse_args()
 
+# Creeert de list om de laatste 5 rollen bij te houden
+vorigeRol = []
 
 def main():
-    if args.GUI:
-        graphic_interface()
-    else:
+    if args.CLI:
         command_interface()
+    else:
+        graphic_interface()
 
 
 # Teken de dobbelroller op het scherm
 def graphic_interface():
-    root = tk.Tk()
-    root.mainloop()
+    app = App()
+    app.mainloop()
 
 
 # Runt de CLI versie
 def command_interface():
     print("Welkom bij de ultra-fantastische mega-ultieme dobbelsteenrolervaring van 2023!!!1!\n")
-    dobbelrol()
+    dobbelrol(dobbelinput())
  
 # Vraag om een integer en kijk of het daadwerkelijk een getal is
+# Wordt alleen in de CLI gebruikt
 def get_int(prompt):
     while True:
         try:
-            # TODO Er moet nog een Else komen voor de GUI
-            if (args.GUI != True): 
-                return int(input(prompt))
+            return int(input(prompt))
         except ValueError:
             print("Foutieve input")
 
@@ -55,52 +65,51 @@ def dobbelinput():
     dobbelsteen = 0
     while dobbelsteen < 1:
         # TODO Er moet nog een Else komen voor de GUI
-        if (args.GUI != True):
+        if (args.CLI == True):
             dobbelsteen = get_int("Welke dobbelsteen wil je rollen? d")
+        # TODO Else StringVar() iets
     return dobbelsteen
 
 
 # Rolt met de dobbelsteen
-def dobbelrol():
+def dobbelrol(d):
     # uitkomst is een willekeurig getal tussen 1 en de opgegeven dobbelsteen
-    d = dobbelinput()
     uitkomst = int(random.randrange(1, d + 1))
     # TODO Er moet nog een Else komen voor de GUI
-    if (args.GUI != True):
+    if (args.CLI == True):
         print(" Je rolde met een d" + str(d))
         print(" En je gooide een", uitkomst)
 
         # Als de rol maximaal of 1 is wordt dit extra benadrukt
         if uitkomst == d:
             print("Je hebt een perfecte rol!")
-            # TODO Voeg een overwinningsgeluid toe
-            # playsound('victory.wav')
+            playsound('sounds/perfect.wav')
         elif uitkomst == 1:
             print("Je rol is gefaald!")
-            # TODO Voeg een faalgeluid toe
-            # playsound('fail.wav)
+            playsound('sounds/failure.wav')
         else:    
-            playsound('bell.wav')
+            playsound('sounds/bell.wav')
 
     # De 5 laatste uitkomsten worden opgeslagen in een lijst
     vorigeRol.insert(0, uitkomst)
     if len(vorigeRol) > 5:
         vorigeRol.pop()
 
-    if (args.GUI != True):    
-        print("De laatste worpen waren:")
-        print(vorigeRol)
-        print()
+    
+    print("De laatste worpen waren:")
+    print(vorigeRol)
+    print()
+    if (args.CLI == True):
         opnieuwrollen()
 
 
 def opnieuwrollen():
-    msg = "Wil je nogmaals rollen? Y/N\nEen leeg antwoord wordt als Ja gezien. "
+    msg = "Wil je nogmaals rollen? Y/n "
     opnieuw = input(msg)
 
     while True:
             if (opnieuw.lower() == "y" or opnieuw == ""): 
-                dobbelrol()
+                dobbelrol(dobbelinput())
             elif (opnieuw.lower() == "n"):
                 exit()
             else:
