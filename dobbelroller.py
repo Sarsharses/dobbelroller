@@ -18,6 +18,7 @@ def main():
     print("Welcome to the ultra-fantastic mega-ultimate dicerolling experience of 2024!!!1!\n")
     dice_roll(dice_input())
 
+
 # Asks for an int until an int has been given, only runs in CLI
 def get_int(prompt):
     while True:
@@ -25,6 +26,7 @@ def get_int(prompt):
             return int(input(prompt))
         except ValueError:
             print("Wrong input")
+
 
 # Checks which dice the user wants to use
 def dice_input():
@@ -67,9 +69,9 @@ def roll_again():
     again = input(msg)
 
     while True:
-        if (again.lower() == "y" or again == ""):
+        if again.lower() == "y" or again == "":
             dice_roll(dice_input())
-        elif (again.lower() == "n"):
+        elif again.lower() == "n":
             exit()
         else:
             print("\nWrong input")
