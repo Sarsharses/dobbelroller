@@ -10,64 +10,70 @@ Dobbelsteenroller in Python
 from playsound import playsound
 import random
 
-vorigeRol = []
+# Creates list to keep track of last throws
+last_roll = []
 
 
 def main():
-    print("Welkom bij de ultra-fantastische mega-ultieme dobbelsteenrolervaring van 2023!!!1!\n")
-    dobbelrol()
+    print("Welcome to the ultra-fantastic mega-ultimate dicerolling experience of 2024!!!1!\n")
+    dice_roll(dice_input())
 
-# Vraag om een integer en kijk of het daadwerkelijk een getal is
+# Asks for an int until an int has been given, only runs in CLI
 def get_int(prompt):
     while True:
         try:
             return int(input(prompt))
         except ValueError:
-            print("Foutieve input")
+            print("Wrong input")
 
-def dobbelinput():
-    dobbelsteen = 0
-    while dobbelsteen < 1:
-        dobbelsteen = get_int("Welke dobbelsteen wil je rollen? d")
-    return dobbelsteen
-
-
-def dobbelrol():
-    # uitkomst is een willekeurig getal tussen 1 en de opgegeven dobbelsteen
-    d = dobbelinput()
-    uitkomst = int(random.randrange(1, d + 1))
-    print(" Je rolde met een d" + str(d))
-    print(" En je gooide een", uitkomst)
-    playsound('bell.wav')
-
-    # Als de rol maximaal of 1 is wordt dit extra benadrukt
-    if uitkomst == d:
-        print("Je hebt een perfecte rol!")
-    if uitkomst == 1:
-        print("Je rol is gefaald!")
-
-    # De 5 laatste uitkomsten worden opgeslagen in een lijst
-    vorigeRol.insert(0, uitkomst)
-    if len(vorigeRol) > 5:
-        vorigeRol.pop()
-
-    print("De laatste worpen waren:")
-    print(vorigeRol)
-    opnieuwrollen()
+# Checks which dice the user wants to use
+def dice_input():
+    dice = 0
+    while dice < 1:
+        dice = get_int("Which dice would you like to roll? d")
+    return dice
 
 
-def opnieuwrollen():
-    opnieuw = input("\nWil je nogmaals rollen? Y/N\nEen leeg antwoord wordt als Ja gezien. ")
+# Rolls the dice
+def dice_roll(d):
+    # result is a random integer between 1 and the given dice
+    result = int(random.randrange(1, d + 1))
+    print(f" You threw a d{str(d)}")
+    print(f" And rolled a {result}")
 
-    if opnieuw.lower() == "y":
-        dobbelrol()
-    elif opnieuw.lower() == "n":
-        exit()
-    elif opnieuw == "":
-        dobbelrol()
+    # Plays special sounds for a perfect or failed roll
+    if result == d:
+        print("That's a perfect throw!")
+        playsound('sounds/perfect.wav')
+    elif result == 1:
+        print("Your throw has failed!")
+        playsound('sounds/failure.wav')
     else:
-        print("Foutieve input")
-        opnieuwrollen()
+        playsound('sounds/bell.wav')
+
+    # Save last 5 throws
+    last_roll.insert(0, result)
+    if len(last_roll) > 5:
+        last_roll.pop()
+
+    print("Your last rolls are:")
+    print(last_roll)
+    print()
+    roll_again()
+
+
+def roll_again():
+    msg = "Would you like to roll again? Y/n "
+    again = input(msg)
+
+    while True:
+        if (again.lower() == "y" or again == ""):
+            dice_roll(dice_input())
+        elif (again.lower() == "n"):
+            exit()
+        else:
+            print("\nWrong input")
+            again = input(msg)
 
 
 main()
